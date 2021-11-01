@@ -30,9 +30,6 @@ OL = monthToCollumn[month];
 
 const wb = xlsx.readFile("dbcopy.xlsx", { cellDates: true });
 const ws = wb.Sheets["2021"];
-// xlsx.utils.sheet_add_aoa(ws, [["Hi"], ["My"], ["My"], ["Name"], ["is"]], { origin: `${OL}6` });
-// console.log(ws["L6"]);
-//xlsx.writeFile(wb, "dbcopy.xlsx", { cellDates: true });
 
 (async () => {
   //setting up for webscraping
@@ -78,7 +75,8 @@ const ws = wb.Sheets["2021"];
   try {
     await page.goto("https://www.instagram.com/pvplc/");
     await page.waitForSelector("#react-root > section > main > div > header > section > ul > li:nth-child(2) > a > span");
-    throw new Error("oops");
+    //error test
+    //throw new Error("oops");
     const IGFollowers = await page.$eval("#react-root > section > main > div > header > section > ul > li:nth-child(2) > a > span", (el) => el.innerHTML);
     potentialAud.IGFollowers = Number(IGFollowers.replace(/\D+/g, ""));
   } catch (error) {
@@ -98,18 +96,18 @@ const ws = wb.Sheets["2021"];
     console.error("Unable to get PI followers");
     potentialAud.PIFollowers = "N/A";
   }
-
-  //filling the ponential audience array from the object by creating a 1 length array cuz that's what the sheet_add_aoa wants
-  const potentialAudAOA = Object.values(potentialAud).map((item) => {
-    let arr = new Array(1);
-    arr[0] = item;
-    return arr;
-  });
-  console.log(Object.values(potentialAudAOA));
-
-  //Creating final copy
-  xlsx.utils.sheet_add_aoa(ws, potentialAudAOA, { origin: `${OL}6` });
-  let name = "dbcopy" + Date.now() + ".xlsx";
-  xlsx.writeFile(wb, name, { cellDates: true });
-  console.log("File created: ", name);
 })();
+
+//filling the ponential audience array from the object by creating a 1 length array cuz that's what the sheet_add_aoa wants
+const potentialAudAOA = Object.values(potentialAud).map((item) => {
+  let arr = new Array(1);
+  arr[0] = item;
+  return arr;
+});
+console.log(Object.values(potentialAudAOA));
+
+//Creating final copy
+xlsx.utils.sheet_add_aoa(ws, potentialAudAOA, { origin: `${OL}6` });
+let name = "dbcopy" + Date.now() + ".xlsx";
+xlsx.writeFile(wb, name, { cellDates: true });
+console.log("File created: ", name);
