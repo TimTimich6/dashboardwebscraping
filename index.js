@@ -99,7 +99,7 @@ const ws = wb.Sheets["2021"];
   }
 })();
 
-//filling the ponential audience array from the object by creating a 1 length array cuz that's what the sheet_add_aoa wants
+//filling the potential audience array from the object by creating a 1 length array cuz that's what the sheet_add_aoa wants
 const potentialAudAOA = Object.values(potentialAud).map((item) => {
   let arr = new Array(1);
   arr[0] = item;
