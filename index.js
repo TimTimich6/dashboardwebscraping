@@ -26,6 +26,7 @@ const monthToCollumn = {
   Nov: "L",
   Dec: "M",
 };
+//Origin Letter(collumn)
 OL = monthToCollumn[month];
 
 const wb = xlsx.readFile("dbcopy.xlsx", { cellDates: true });
